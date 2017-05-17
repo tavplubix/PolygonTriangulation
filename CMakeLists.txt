@@ -3,5 +3,5 @@ project(PolygonTriangulation)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp Polygon.cpp)
 add_executable(PolygonTriangulation ${SOURCE_FILES})

@@ -1,11 +1,12 @@
 #pragma once
 #include <algorithm>
 #include <list>
+#include <vector>
 
 struct Vertex {
     double x, y;
     unsigned n;
-    Vertex(x, y, n) : x(x), y(y), n(n) {};
+    Vertex(double x, double y, unsigned n) : x(x), y(y), n(n) {};
 };
 
 
@@ -21,7 +22,7 @@ public:
     Polygon() = delete;
     template<typename Iter>
     Polygon(Iter begin, Iter end);
-    static edgeLen(const Vertex& v1, const Vertex& v2) noexcept;
+    static double edgeLen(const Vertex& v1, const Vertex& v2);
     std::list<unsigned> triangulation() const noexcept;
 };
 
