@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <iostream>
 #include <list>
 #include <stdexcept>
 #include <vector>
@@ -11,18 +12,13 @@ struct Vertex {
     bool operator == (const Vertex& other) const { return x == other.x && y == other.y; }
 };
 
-
+typedef std::pair<Vertex, Vertex> Edge;
 
 
 class Polygon {
-    mutable std::list<Vertex> vertexes;
-
-    // Находит минимальный периметр триангуляции многоугольника с вершинами vertexes,
-    // записывая в subtasks результаты решения подзадач
-    double minTriangulationP(std::list<Vertex>& vertexes, std::vector<std::vector<double>>& subtasks, double P) const;
-    double area (Vertex a, Vertex b, Vertex c) const noexcept;
-    bool intersect_1 (double a, double b, double c, double d) const noexcept;
-    bool crossed (Vertex a, Vertex b, Vertex c, Vertex d) const noexcept;
+private:
+    std::vector<Vertex> vertexes;
+    double minTriangulationP(std::vector<std::vector<std::pair<double, size_t>>> &subtask, size_t i, size_t j) const noexcept;
 public:
     Polygon() = delete;
     template<typename Iter>
@@ -35,7 +31,7 @@ public:
         if (n < 3)
             throw std::invalid_argument("Less then 3 vertexes in the polygon");
         Vertex first = vertexes.front();
-        vertexes.sort([&](const Vertex& v1, const Vertex& v2) {
+        std::sort(vertexes.begin(), vertexes.end(), [&](const Vertex& v1, const Vertex& v2) {
             double v1x = v1.x - first.x;
             double v1y = v1.y - first.y;
             double v2x = v2.x - first.x;
@@ -44,7 +40,8 @@ public:
         });
     }
     static double edgeLen(const Vertex& v1, const Vertex& v2);
-    std::vector<std::pair<Vertex, Vertex>> triangulation() const noexcept;
+    double triangulation(std::vector<Edge> &answer) const;
+    double P() const noexcept;
 };
 
 
