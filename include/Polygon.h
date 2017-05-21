@@ -10,12 +10,22 @@ struct Vertex {
     unsigned n;
     Vertex(double x = 0, double y = 0, unsigned n = 0) : x(x), y(y), n(n) {};
     bool operator == (const Vertex& other) const { return x == other.x && y == other.y; }
+    bool operator != (const Vertex& other) const { return !(*this == other); }
 };
 
 typedef std::pair<Vertex, Vertex> Edge;
 
+namespace simpleTests
+{
+    struct testPolygon;
+    struct testPolygonMinTriangulationP;
+}
+
+#include <iostream>
 
 class Polygon {
+    friend struct ::simpleTests::testPolygon;
+    friend struct ::simpleTests::testPolygonMinTriangulationP;
 private:
     std::vector<Vertex> vertexes;
     double minTriangulationP(std::vector<std::vector<std::pair<double, size_t>>> &subtask, size_t i, size_t j) const noexcept;
@@ -39,6 +49,8 @@ public:
             return v1x*v2y - v1y*v2x > 0;
         });
     }
+    template<typename Iteratable>
+    Polygon(const Iteratable& vertexes) : Polygon(std::begin(vertexes), std::end(vertexes)) {}
     static double edgeLen(const Vertex& v1, const Vertex& v2);
     double triangulation(std::vector<Edge> &answer) const;
     double P() const noexcept;
